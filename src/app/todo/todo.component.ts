@@ -20,7 +20,13 @@ export class ToDoComponent implements OnInit{
 
   ngOnInit(){
     this.today = this.todoService.today;
-    this.todos = this.todoService.todos;
+    this.todoService.todos
+      .then((todosRecup) => {
+        this.todos = todosRecup;
+      })
+      .catch((error) => {
+        console.log("Erreur : " + error );
+      });
   }
 
   onChangeStatus(i: number){
