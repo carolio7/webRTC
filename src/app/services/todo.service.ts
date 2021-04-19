@@ -1,55 +1,16 @@
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 
 @Injectable()
 export class TodoService{
   today = new Date();
   todos;
-  todoSlice;
+  todoSubject = new Subject<any[]>();
 
 
   constructor(){
 
-    this.todos = new Promise((resolve, reject) =>{
-      const data = [
-        {
-          todoName: "Projet 1",
-          todoStatus: false,
-          image: "http://placeimg.com/300/300/tech",
-          isModif: false,
-          description: "Ceci est le projet 1",
-        },
-        {
-          todoName: "Projet 2",
-          todoStatus: false,
-          image: "http://placeimg.com/300/300/tech",
-          isModif: false,
-          description: "Ceci est le projet 2",
-        },
-        {
-          todoName: "Projet 3",
-          todoStatus: true,
-          image: "http://placeimg.com/300/300/tech",
-          isModif: false,
-          description: "Ceci est le projet 3",
-        },
-        {
-          todoName: "Projet 4",
-          todoStatus: false,
-          image: "http://placeimg.com/300/300/tech",
-          isModif: false,
-          description: "Ceci est le projet 4",
-        }
-      ];
-      if (data.length){
-        setTimeout(() => {
-          this.todoSlice = data;
-          resolve(data);
-        }, 5000);
-      } else{
-        reject("Pas de données disponible sur le serveur")
-      }
-    });
-    /*setTimeout(() =>{
+    setTimeout(() =>{
       this.todos = [
         {
           todoName: "Projet 1",
@@ -80,22 +41,28 @@ export class TodoService{
           description: "Ceci est le projet 4",
         }
       ];
-
+      this.emitTodos();
     },3000);
-    */
+
+  }
+
+  emitTodos(){
+    this.todoSubject.next(this.todos);
   }
 
   onChangeStatus(i: number){
-    this.todoSlice[i].todoStatus = !this.todoSlice[i].todoStatus;
+    this.todos[i].todoStatus = !this.todos[i].todoStatus;
+    this.emitTodos();
   }
 
   onChangeIsModif(i){
-    this.todoSlice[i].isModif = !this.todoSlice[i].isModif;
+    this.todos[i].isModif = !this.todos[i].isModif;
+    this.emitTodos();
   }
 
   getTodo(index: number){
-    if (this.todoSlice[index]){
-      return this.todoSlice[index]
+    if (this.todos[index]){
+      return this.todos[index]
     }
     return false
   }
