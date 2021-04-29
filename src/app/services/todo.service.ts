@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
+import { Todo } from "../models/todo.model";
 
 @Injectable()
 export class TodoService{
   today = new Date();
-  todos;
+  todos: Todo[];
   todoSubject = new Subject<any[]>();
 
 
@@ -65,5 +66,11 @@ export class TodoService{
       return this.todos[index]
     }
     return false
+  }
+
+
+  addTodo(todo: Todo): void {
+    this.todos.unshift(todo);
+    this.emitTodos();
   }
 }

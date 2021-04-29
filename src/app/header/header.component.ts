@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.secondesSub = secondesObs.subscribe(
       (value : number) => {
         this.secondes = value;
-        console.log(value);
       }
     );
   }
