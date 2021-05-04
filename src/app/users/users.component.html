@@ -4,6 +4,7 @@
   <li class="list-group-item" *ngFor="let user of users">
     <p>Prenom : {{user.firstname}}</p>
     <p>Nom : {{user.lastname}}</p>
+    <p>Alias : <strong *ngFor="let alias  of user.aliases">{{alias}},</strong></p>
     <p>Description : {{user.description}}</p>
 
   </li>
